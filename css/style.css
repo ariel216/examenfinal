@@ -1,0 +1,113 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+}
+.tu{
+    width: 500px;
+    height: 300px;
+    background-image: url('https://m.sinosecu.com.cn/upload/20211109/KXatinZTpZ2Y56vt7GB.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.tu::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500px;
+    height: 20px;
+    background-image: url('https://m.sinosecu.com.cn/upload/20211109/KXatinZTpZ2Y56vt7GB.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    filter: invert(100%); 
+    opacity: 0;
+   
+}
+.tu:hover::after{
+    opacity: 1;
+    animation: move 1.8s linear infinite;
+}
+@keyframes move{
+    0%{
+        top: 0;
+        background-position: 6px 0px; 
+    }
+    20%{
+        top: 60px;
+        background-position: -6px -60px; 
+    }
+    40%{
+        top: 120px;
+        background-position: 6px -120px; 
+    }
+    60%{
+        top: 180px;
+        background-position: -6px -180px; 
+    }
+    80%{
+        top: 240px;
+        background-position: 6px -240px; 
+    }
+    100%{
+        top: 300px;
+        background-position: -6px -300px; 
+    }
+}*/
+
+.scan {
+    width: 25em;
+    text-align: center;
+    padding: 6px 2px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin: auto;
+    border: dashed .25em rgb(90, 85, 85);
+    transform: translate(-50%);
+}
+  
+.scan::after {
+    content: '';
+    background: rgba(23, 162, 74, 0.7);
+    width: 0.75em;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 7;
+    z-index: 2;
+    animation: 4s infinite ease-in-out roll;
+} 
+  
+.scan img {
+    height: 100%;
+    width: 100%;
+}
+  
+@keyframes roll {
+    0% {
+        transform: translateX(-180px);
+    }
+    50% {
+        transform: translateX(180px);
+    }
+    100% {
+        transform: translateX(-180px);
+    }
+}
