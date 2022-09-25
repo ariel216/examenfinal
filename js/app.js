@@ -14,7 +14,26 @@
 //         res.innerHTML= text;
 //     })
 
-const {host, hostname, href, origin, pathname, port, protocol, search} = window.location;
+import { openDB } from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
+
+const db = await openDB('appVotacion', 1, {
+  upgrade(db) {
+    db.createObjectStore('preguntas', {
+      keyPath: 'id',
+      autoIncrement: true,
+    });
+    db.createObjectStore('respuestas', {
+      keyPath: 'id',
+      autoIncrement: true,
+    });
+    db.createObjectStore('votantes', {
+      keyPath: 'id',
+      autoIncrement: true,
+    });
+  },
+});
+
+const {pathname} = window.location;
 
 let clase1 = '';
 let span1 = '';
@@ -98,7 +117,7 @@ cabecera.innerHTML = `
   <body>  
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary fondo">
           <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Examen UAB</a>
+            <a class="navbar-brand" href="index.html">Examen UAB | Votación</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>

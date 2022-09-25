@@ -8,16 +8,8 @@ function limpiarFormulario(){
     document.getElementById('ordenPregunta').value = '1';
 }
 
-import { openDB, deleteDB, wrap, unwrap } from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
-
-const db = await openDB('appVotacion', 1, {
-    upgrade(db) {
-      const store = db.createObjectStore('preguntas', {
-        keyPath: 'id',
-        autoIncrement: true,
-      });
-    },
-});
+import { openDB } from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
+const db = await openDB('appVotacion', 1);
 
 async function procesar(e){
     e.preventDefault();

@@ -1,12 +1,79 @@
 <div id="cabecera"></div>
     <div class="container mt-3">
         <div class="row mb-3">
-            <h2>Resultados</h2>
+            <div class="col-lg-7">
+                <div class="card border-secondary mb-3">
+                    <div class="card-header">Gráfico</div>
+                    <div class="card-body">                        
+                        <figure class="highcharts-figure">
+                            <div id="dona"></div>                    
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card text-white bg-primary mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">                            
+                            <div class="col-lg-6 text-center">
+                                <h4>Votos totales:</h4>
+                                <h1 class="display-3" style="opacity: 0.7;">6</h1>
+                            </div>
+                            <div class="col-lg-6 text-center">
+                                <h1 class="display-2" style="opacity: 0.7;">
+                                    <i class="fa fa-ticket fa-2x"></i>
+                                </h1>
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+
+                <div class="card border-secondary mb-3">
+                    <div class="card-header">Resultados</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Balotaje Actual</h4>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover table-striped table-bordered">
+                                <thead>
+                                  <tr class="table-secondary">
+                                    <th scope="col">Nro.</th>
+                                    <th scope="col">Pregunta</th>
+                                    <th scope="col">Total SI</th>
+                                    <th scope="col">Total NO</th>
+                                    <th scope="col">Total BLANCOS</th>
+                                    <th scope="col">VOTOS TOTALES</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="listaRespuestas">                                
+    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
         </div>        
     </div>
     
+    <style>      
+        .highcharts-figure {
+            min-width: 310px;
+            max-width: 600px;
+        }
+    </style>
+
     <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/app.js"></script>
-    <script src="./js/resultados.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
+    <script src="./js/app.js" type="module"></script>
+    <script src="./js/resultados.js" type="module"></script>
+
 </body>
 </html>
