@@ -64,6 +64,18 @@ body{
         background-position: -6px -300px; 
     }
 }*/
+body{
+    background: #E9F1FE;
+    font-family: 'Exo', sans-serif;
+    background-image: url('../img/bg-01.png');
+    
+}
+.fondo {
+    /* background-color: #0f8f9c !important; */
+    /*background-image: url('../img/bg-01.png');*/
+
+}
+
 
 .scan {
     width: 25em;
@@ -111,3 +123,4 @@ body{
         transform: translateX(-180px);
     }
 }
+

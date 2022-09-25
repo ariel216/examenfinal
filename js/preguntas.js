@@ -4,71 +4,81 @@ document.getElementById("btnEnviar").addEventListener('click', procesar);
 let listaPreguntas = document.getElementById("listaPreguntas");
 
 function limpiarFormulario(){
-    pregunta = '';
-    ordenPregunta = '1';
-}
-
-function procesar(e){
-    e.preventDefault();
-
-    let ordenPregunta = document.getElementById('pregunta').value;
-    let pregunta = document.getElementById('ordenPregunta').value;
-
-    console.log('orderPregunta: ', ordenPregunta);
-    console.log('pregunta: ', pregunta);
-
+    document.getElementById('pregunta').value = '';
+    document.getElementById('ordenPregunta').value = '1';
 }
 
 import { openDB, deleteDB, wrap, unwrap } from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
 
 const db = await openDB('appVotacion', 1, {
     upgrade(db) {
-      // Create a store of objects
       const store = db.createObjectStore('preguntas', {
-        // The 'id' property of the object will be the key.
         keyPath: 'id',
-        // If it isn't explicitly set, create a value by auto incrementing.
         autoIncrement: true,
       });
-      // Create an index on the 'date' property of the objects.
-      //store.createIndex('date', 'date');
     },
 });
 
-// agregar pregunta
-async function  agregar (){
+async function procesar(e){
+    e.preventDefault();
+
+    let pregunta = document.getElementById('pregunta').value;
+    let ordenPregunta = document.getElementById('ordenPregunta').value;
+
     await db.add('preguntas', {
-        pregunta: 'Contenido de la pregunta....',
-        orden:'1',
+        pregunta,
+        orden:ordenPregunta,
         date: new Date()    
     });
+    listaPreguntas.innerHTML = ``;
+    getAllPreguntas();
+    limpiarFormulario();
 }
 
-
-async function eliminarPregunta(id){
-    await db.delete('preguntas',id);
-    listarPreguntas();
-}
-
-//async function listarPreguntas(){
+async function getAllPreguntas(){
     let resultado = await db.getAll('preguntas');
-    console.log(resultado);
+    let i = 0;
     for (const item in resultado) {        
+        i++;
         const fila = resultado[item];
         listaPreguntas.innerHTML = listaPreguntas.innerHTML + `
             <tr>
-                <th scope="row">${fila.id}</th>
+                <th scope="row" hidden>${fila.id}</th>
+                <th>${i}</th>
                 <td>${fila.pregunta}</td>
                 <td>${fila.orden}</td>
                 <td>
-                    <a href="javascript:void(0)" class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-outline-danger" onclick="eliminarPregunta(${fila.id})"><i class="fa fa-times"></i></a>
+                    <a href="javascript:void(0)" class="btn btn-outline-warning"><i class="fa fa-edit"></i> Editar</a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger"><i class="fa fa-times"></i> Quitar</a>
                 </td>
             </tr> 
         `;
     } 
     
-//}
+}
  
-//listarPreguntas();
+getAllPreguntas();
 
+
+listaPreguntas.addEventListener('click', tabla);
+
+function tabla(e){   
+    if(e.target.nodeName== 'A' || e.target.nodeName== 'I'){
+        if(e.target.innerHTML.includes('Editar') || e.target.className.includes('edit')){
+            let id = e.path[2].childNodes[1].innerHTML;
+            console.log(id);
+
+        }
+        if(e.target.innerHTML.includes('Quitar') || e.target.className.includes('times')){
+            let id = e.path[2].childNodes[1].innerHTML;
+            console.log(id);
+            eliminarPregunta(id);
+        }
+    }    
+    
+}
+async function eliminarPregunta(id){
+    await db.delete('preguntas',Number(id));
+    listaPreguntas.innerHTML = ``;
+    getAllPreguntas();
+}
