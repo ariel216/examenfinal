@@ -4,9 +4,11 @@ import { openDB } from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
 const db = await openDB('appVotacion', 1);
 
 let listadoResp = document.getElementById('listaRespuestas');
-let resultado = [];
+let indice = 0;
+let preguntaActual;
+let totalVotos = 0;
 
-async function getAllPreguntas(){
+async function getAllPreguntas(indice){
     let respuestas = await db.getAll('respuestas');
     let preguntas = await db.getAll('preguntas');
 
@@ -30,11 +32,19 @@ async function getAllPreguntas(){
                 totalBLANCO++;
             }
         }
-        resultado.push({id: item.id, pregunta: item.pregunta, totalSI, totalNO, totalBLANCO});
-           listadoResp.innerHTML = listadoResp.innerHTML + `
+        
+        if(i==indice){
+            preguntaActual = {item, totalSI, totalNO, totalBLANCO};            
+            cargaGrafico(preguntaActual);
+        }
+
+        totalVotos = Number(totalSI)+Number(totalNO)+Number(totalBLANCO);
+        cargarTotal(totalVotos);
+
+        listadoResp.innerHTML = listadoResp.innerHTML + `
             <tr>                
                 <td class="text-center">${i+1}</td>
-                <td>${resultado[i].pregunta}</td>                
+                <td>${item.pregunta}</td>                
                 <td class="text-center">${totalSI}</td>
                 <td class="text-center">${totalNO}</td>
                 <td class="text-center">${totalBLANCO}</td>
@@ -44,34 +54,52 @@ async function getAllPreguntas(){
     }     
 }
  
-getAllPreguntas();
+getAllPreguntas(indice);
 
-console.log(resultado);
+function cargaGrafico(preguntaActual){
+    Highcharts.chart('dona', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45
+            }
+        },
+        exporting: { enabled: false },
+        title: {
+            text: preguntaActual.item.pregunta
+        },
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name} ({point.percentage:.1f}%)',
+				    connectorWidth: 2
+                }
+            }
+        },
+        series: [{
+            name: 'Total',
+            data: [
+                ['SI', preguntaActual.totalSI],
+                ['NO', Number(preguntaActual.totalNO)],
+                ['BLANCO', Number(preguntaActual.totalBLANCO)]
+            ]
+        }],
+        credits: {
+            enabled: false
+        }, 
+        tooltip:{
+            useHTML: true,	
+            headerFormat: '<h1>{point.key}</h1>',
+            pointFormat: '<h4>{point.percentage:.1f} {series.name} </h4>',
+        }
+    });
+}
 
-Highcharts.chart('dona', {
-    chart: {
-        type: 'pie',
-        options3d: {
-            enabled: true,
-            alpha: 45
-        }
-    },
-    exporting: { enabled: false },
-    title: {
-        text: 'resultado[0].pregunta'
-    },
-    plotOptions: {
-        pie: {
-            innerSize: 100,
-            depth: 45
-        }
-    },
-    series: [{
-        name: 'Total',
-        data: [
-            ['SI', 16],
-            ['NO', 12],
-            ['BLANCO', 8]
-        ]
-    }]
-});
+function cargarTotal(totalVotos){
+    console.log(totalVotos);
+    document.getElementById('totalVotos').innerHTML = totalVotos;
+}

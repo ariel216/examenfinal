@@ -48,6 +48,18 @@ function urlActual (){
   return pathname.replace('/','');
 }
 
+const usuario = localStorage.getItem('usuario');
+let nav= '';
+
+function estaLogueado(){
+  console.log('us: '+usuario);
+  if(usuario==''|| usuario==undefined || usuario==null){
+    return false;
+  }
+  return true;
+}
+
+
 switch (urlActual()) {
   case 'index.html':
     clase1='active';
@@ -102,6 +114,56 @@ switch (urlActual()) {
 }
 
 const cabecera = document.getElementById('cabecera');
+
+if(estaLogueado()){
+  nav = `
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">                      
+        <a class="nav-link ${clase1}" href="index.html"><i class="fa fa-home"></i> Inicio
+          ${span1}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${clase2}" href="votacion.html"><i class="fa fa-edit"></i> Votación
+          ${span2}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${clase3}" href="resultados.html"><i class="fa fa-dashboard"></i> Resultados
+          ${span3}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${clase4}" href="preguntas.html"><i class="fa fa-question"></i> Preguntas
+          ${span4}
+        </a>
+      </li>
+    </ul>     
+    <form class="d-flex">
+      <h4>USUARIOOO</h4>  
+    </form> 
+  `;
+}else{
+  nav = `
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">                      
+        <a class="nav-link ${clase1}" href="index.html"><i class="fa fa-home"></i> Inicio
+          ${span1}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${clase2}" href="votacion.html"><i class="fa fa-edit"></i> Votación
+          ${span2}
+        </a>
+      </li>    
+    </ul>     
+    <form class="d-flex">
+      <input class="form-control me-sm-2" type="text" placeholder="Usuario">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Ingresar</button>
+    </form>  
+  `;
+}
+
 cabecera.innerHTML = `
   <!DOCTYPE html>
   <html lang="es">
@@ -122,28 +184,7 @@ cabecera.innerHTML = `
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
-              <ul class="navbar-nav me-auto">
-                <li class="nav-item">                      
-                  <a class="nav-link ${clase1}" href="index.html"><i class="fa fa-home"></i> Inicio
-                    ${span1}
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link ${clase2}" href="votacion.html"><i class="fa fa-edit"></i> Votación
-                    ${span2}
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link ${clase3}" href="resultados.html"><i class="fa fa-dashboard"></i> Resultados
-                    ${span3}
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link ${clase4}" href="preguntas.html"><i class="fa fa-question"></i> Preguntas
-                    ${span4}
-                  </a>
-                </li>
-              </ul>            
+              ${nav}      
             </div>
           </div>
       </nav>
