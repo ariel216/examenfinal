@@ -25,6 +25,7 @@ async function procesar(e){
     listaPreguntas.innerHTML = ``;
     getAllPreguntas();
     limpiarFormulario();
+    swal("Correcto!", "Registro Completado!", "success");
 }
 
 async function getAllPreguntas(){
@@ -39,8 +40,7 @@ async function getAllPreguntas(){
                 <th>${i}</th>
                 <td>${fila.pregunta}</td>
                 <td>${fila.orden}</td>
-                <td>
-                    <a href="javascript:void(0)" class="btn btn-outline-warning"><i class="fa fa-edit"></i> Editar</a>
+                <td>                    
                     <a href="javascript:void(0)" class="btn btn-outline-danger"><i class="fa fa-times"></i> Quitar</a>
                 </td>
             </tr> 

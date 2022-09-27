@@ -90,4 +90,5 @@ votar.addEventListener('click', async ()=>{
             fila
         });
     }
+    swal("Correcto!", "Registro Completado!", "success");
 });
